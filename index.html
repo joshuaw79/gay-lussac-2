@@ -155,15 +155,14 @@ let dataPoints = []; // store P-T points for graph
 function updateParticleSpeed() {
     let sliderTemp = parseInt(tempSlider.value);
 
-    // For particle speed: use the actual slider value
-    const baseSpeed = Math.max(sliderTemp / T0, 0); // 0 speed at 0 K
+    // Particle speed: 0 K → 0 speed, proportional to T
+    const baseSpeed = sliderTemp > 0 ? sliderTemp / T0 : 0;
     particles.forEach(p => p.speed = baseSpeed);
 
-    // For pressure calculation: enforce minimum 100 K
-    const pressureTemp = Math.max(sliderTemp, 100);
-    const P = P0 * (pressureTemp / T0);
-
+    // Pressure calculation: actual sliderTemp (0 → 1000)
+    const P = P0 * (sliderTemp / T0);
     pressureValueDisplay.textContent = P.toFixed(2);
+
     tempDisplay.textContent = `${sliderTemp} K`;
     tempNumber.value = sliderTemp;
 
