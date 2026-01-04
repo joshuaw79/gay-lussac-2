@@ -71,7 +71,7 @@ canvas {
 <div id="controls">
     <label for="temperature">Temperature (K): </label>
     <input type="range" id="temperature" min="100" max="1000" value="300">
-    <input type="number" id="tempNumber" min="100" max="1000" value="300">
+    <input type="number" id="tempNumber" value="300">
     <span id="tempDisplay">300 K</span>
 </div>
 
@@ -219,8 +219,10 @@ function drawGraph() {
 }
 
 tempSlider.addEventListener("input", updateParticleSpeed);
+
 tempNumber.addEventListener("input", () => {
     let val = parseInt(tempNumber.value);
+    if (isNaN(val)) return; // allow empty while typing
     if (val < 100) val = 100;
     if (val > 1000) val = 1000;
     tempSlider.value = val;
